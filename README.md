@@ -90,7 +90,9 @@ To debug the server, you can use [this browser tool](https://github.com/modelcon
 npx @modelcontextprotocol/inspector
 ```
 
-Then open http://localhost:6274/#tools
+Then open http://localhost:6274/#tools.
+
+You can also use https://www.mcpplayground.io/ to look at the tools in the live HTTP server.
 
 ### Generating the docs
 
