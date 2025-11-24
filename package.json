@@ -16,7 +16,7 @@
   "dependencies": {
     "@mixmark-io/domino": "^2.2.0",
     "@modelcontextprotocol/sdk": "1.20.2",
-    "agents": "^0.2.19",
+    "agents": "^0.2.23",
     "minisearch": "^7.2.0",
     "turndown": "^7.2.2",
     "turndown-plugin-gfm": "^1.0.2",

@@ -137,6 +137,7 @@ describe('searching for docs', () => {
             'https://docs.godotengine.org/en/stable/getting_started/first_3d_game/03.player_movement_code.html',
             'https://docs.godotengine.org/en/stable/getting_started/first_3d_game/06.jump_and_squash.html',
             'https://docs.godotengine.org/en/stable/getting_started/first_3d_game/08.score_and_replay.html',
+            'https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/advanced_import_settings.html',
             'https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/model_export_considerations.html',
             'https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/node_type_customization.html',
             'https://docs.godotengine.org/en/stable/tutorials/best_practices/what_are_godot_classes.html',
