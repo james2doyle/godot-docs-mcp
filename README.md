@@ -1,5 +1,7 @@
 # Godot Docs MCP
 
+![demo.png](demo.png)
+
 *This project is [hosted on Cloudflare using their Agents framework](https://developers.cloudflare.com/agents/)*
 
 Look up documentation in Godot using fuzz search. Supports `stable`, `latest`, `4.5`, `4.4`, and `4.3` versions. The default version is "stable".
