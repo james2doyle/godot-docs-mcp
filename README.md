@@ -1,50 +1,102 @@
-# Building a Remote MCP Server on Cloudflare (Without Auth)
+# Godot Docs MCP
 
-This example allows you to deploy a remote MCP server that doesn't require authentication on Cloudflare Workers. 
+*This project is [hosted on Cloudflare using their Agents framework](https://developers.cloudflare.com/agents/)*
 
-## Get started: 
+Look up documentation in Godot using fuzz search. Supports `stable`, `latest`, `4.5`, `4.4`, and `4.3` versions. The default version is "stable".
 
-[![Deploy to Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/ai/tree/main/demos/remote-mcp-authless)
+## Tools
 
-This will deploy your MCP server to a URL like: `remote-mcp-server-authless.<your-account>.workers.dev/sse`
+**search_docs** `(searchTerm: string, version: "stable" | "latest" | "4.5" | "4.4" | "4.3" = "stable")`
 
-Alternatively, you can use the command line below to get the remote MCP Server created on your local machine:
-```bash
-npm create cloudflare@latest -- my-mcp-server --template=cloudflare/ai/demos/remote-mcp-authless
-```
+> Search the Godot docs by term. Will return URLs to the documentation for each matching term. The resulting URLs will need to have their page content fetched to see the documentation.
 
-## Customizing your MCP Server
+**get_docs_page_for_term** `(searchTerm: string, version: "stable" | "latest" | "4.5" | "4.4" | "4.3" = "stable")`
 
-To add your own [tools](https://developers.cloudflare.com/agents/model-context-protocol/tools/) to the MCP server, define each tool inside the `init()` method of `src/index.ts` using `this.server.tool(...)`. 
+> Get the Godot docs content by term. Will return the full documentation page for the first matching result.
 
-## Connect to Cloudflare AI Playground
+## Configure the MCP server
 
-You can connect to your MCP server from the Cloudflare AI Playground, which is a remote MCP client:
-
-1. Go to https://playground.ai.cloudflare.com/
-2. Enter your deployed MCP server URL (`remote-mcp-server-authless.<your-account>.workers.dev/sse`)
-3. You can now use your MCP tools directly from the playground!
-
-## Connect Claude Desktop to your MCP server
-
-You can also connect to your remote MCP server from local MCP clients, by using the [mcp-remote proxy](https://www.npmjs.com/package/mcp-remote). 
-
-To connect to your MCP server from Claude Desktop, follow [Anthropic's Quickstart](https://modelcontextprotocol.io/quickstart/user) and within Claude Desktop go to Settings > Developer > Edit Config.
-
-Update with this configuration:
+To use the hosted HTTP server:
 
 ```json
 {
   "mcpServers": {
-    "calculator": {
+    "godot": {
+      "type": "http",
+      "url": "https://godot-docs-mcp.j2d.workers.dev/mcp"
+    }
+  }
+}
+```
+
+Or, to connect to the MCP server using a `stdio` server:
+
+```json
+{
+  "mcpServers": {
+    "godot": {
       "command": "npx",
       "args": [
         "mcp-remote",
-        "http://localhost:8787/sse"  // or remote-mcp-server-authless.your-account.workers.dev/sse
+        "https://godot-docs-mcp.j2d.workers.dev/mcp"
       ]
     }
   }
 }
 ```
 
-Restart Claude and you should see the tools become available. 
+### How this works
+
+The docs site uses a frontend search tool to handle the docs search. There is a file called `searchindex.js` in the docs site that contains an index of all the pages (URLs and titles, not content) on the site.
+
+This project takes advantage of that in the following ways:
+
+- downloads each of those `searchindex.js` files for each version of the docs
+- converts the `searchindex.js` to a `searchindex.js.json` that is just json we need
+- indexes that new json using [lucaong/minisearch](https://github.com/lucaong/minisearch)
+- when a docs page is requested, the URL for the page is converted from HTML to markdown
+
+## Local development
+
+### MCP server
+
+```sh
+npm install
+npm run dev
+```
+
+Then, set up your tool:
+
+```json
+{
+  "mcpServers": {
+    "godot": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://localhost:8787/mcp"
+      ]
+    }
+  }
+}
+```
+
+To debug the server, you can use [this browser tool](https://github.com/modelcontextprotocol/inspector):
+
+```sh
+# in another tab
+npx @modelcontextprotocol/inspector
+```
+
+Then open http://localhost:6274/#tools
+
+### Generating the docs
+
+```sh
+# create the folders
+echo "stable,latest,4.5,4.4,4.3" | string split "," | xargs -I {} mkdir -p "src/indexes/{}"
+# download the files
+echo "stable,latest,4.5,4.4,4.3" | string split "," | xargs -I {} curl -o "src/indexes/{}/searchindex.js" "https://docs.godotengine.org/en/{}/searchindex.js"
+# convert the .js to a .json
+lsd src/indexes/*/searchindex.js | xargs -n1 fish -c 'cat "$argv" | sd "Search.setIndex\(" "" | sed \'$ s/.$//\' | jq \'.docnames | to_entries | map({id: .key, name: .value, category: .value | split("/") | first, url: "/\\(.value).html"})\' > "$argv.json"'
+```

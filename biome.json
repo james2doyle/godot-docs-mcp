@@ -1,49 +1,40 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.3.2/schema.json",
-	"assist": {
-		"actions": {
-			"source": {
-				"useSortedKeys": "off"
-			}
-		},
-		"enabled": true
-	},
-	"files": {
-		"includes": ["!worker-configuration.d.ts", "src/**/*"]
-	},
-	"formatter": {
-		"enabled": true,
-		"indentWidth": 4,
-		"lineWidth": 100
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true,
-			"style": {
-				"noInferrableTypes": "error",
-				"noNonNullAssertion": "off",
-				"noParameterAssign": "error",
-				"noUnusedTemplateLiteral": "error",
-				"noUselessElse": "error",
-				"useAsConstAssertion": "error",
-				"useDefaultParameterLast": "error",
-				"useEnumInitializers": "error",
-				"useNumberNamespace": "error",
-				"useSelfClosingElements": "error",
-				"useSingleVarDeclarator": "error"
-			},
-			"suspicious": {
-				"noConfusingVoidType": "off",
-				"noDebugger": "off",
-				"noExplicitAny": "off"
-			}
-		}
-	},
-	"root": false,
-	"vcs": {
-		"clientKind": "git",
-		"enabled": true,
-		"useIgnoreFile": true
-	}
+  "$schema": "https://biomejs.dev/schemas/2.3.7/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": [
+      "**",
+      "src/**/*",
+      "!!worker-configuration.d.ts",
+      "!!src/indexes/**/*"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  }
 }
