@@ -18,7 +18,16 @@
       }
     ]
   },
+  "placement": {
+    "mode": "smart"
+  },
   "observability": {
-    "enabled": true
+    "logs": {
+      "enabled": false,
+      "invocation_logs": false
+    },
+    "traces": {
+      "enabled": false
+    }
   }
 }
