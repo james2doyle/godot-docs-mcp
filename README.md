@@ -114,17 +114,20 @@ To deploy your own instance (recommended to avoid rate limits):
 
 1. Create a free [Cloudflare account](https://dash.cloudflare.com/sign-up)
 1. Install and authenticate Wrangler:
-   ```sh
-   npm install -g wrangler
-   wrangler login
-   ```
+
+```sh
+npm install -g wrangler
+wrangler login
+```
+
 1. Clone and deploy:
-   ```sh
-   git clone https://github.com/your-repo/godot-docs-mcp.git
-   cd godot-docs-mcp
-   npm install
-   npm run deploy
-   ```
+
+```sh
+git clone https://github.com/your-repo/godot-docs-mcp.git
+cd godot-docs-mcp
+npm install
+npm run deploy
+```
 
 After deployment, update your MCP config with your worker URL:
 
