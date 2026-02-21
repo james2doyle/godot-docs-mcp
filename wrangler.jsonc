@@ -23,7 +23,7 @@
       "name": "MCP_RATE_LIMITER",
       "namespace_id": "1001",
       "simple": {
-        "limit": 20,
+        "limit": 30,
         "period": 60
       }
     }
