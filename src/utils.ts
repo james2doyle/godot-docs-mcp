@@ -3,7 +3,7 @@ import MiniSearch, { type Options as MiniSearchOptions } from 'minisearch';
 import TurndownService from 'turndown';
 import { gfm } from 'turndown-plugin-gfm';
 
-type Version = 'stable' | 'latest' | '4.5' | '4.4' | '4.3';
+type Version = 'stable' | 'latest' | '4.6' | '4.5' | '4.4' | '4.3';
 
 type SearchIndexItem = {
   id: number;

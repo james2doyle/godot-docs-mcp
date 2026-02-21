@@ -4,7 +4,14 @@ import { z } from 'zod';
 import packageJson from '../package.json';
 import { getDocsPageForTerm, searchDocs } from './utils';
 
-const supportedVersions = ['stable', 'latest', '4.5', '4.4', '4.3'] as const;
+const supportedVersions = [
+  'stable',
+  'latest',
+  '4.6',
+  '4.5',
+  '4.4',
+  '4.3',
+] as const;
 
 // Define our MCP agent with tools
 export class MyMCP extends McpAgent {
@@ -16,7 +23,7 @@ export class MyMCP extends McpAgent {
   async init() {
     this.server.tool(
       'search_docs',
-      'Search the Godot docs by term. Will return URLs to the documentation for each matching term. The resulting URLs will need to have their page content fetched to see the documentation.',
+      'Search the Godot documentation by term. Returns URLs to the full documentation for each matching term. The resulting URLs will need to have their page content fetched to see the documentation.',
       {
         searchTerm: z.string(),
         version: z.enum(supportedVersions).optional().default('stable'),
@@ -25,7 +32,7 @@ export class MyMCP extends McpAgent {
     );
     this.server.tool(
       'get_docs_page_for_term',
-      'Get the Godot docs content by term. Will return the full documentation page for the first matching result.',
+      'Fetch content from the Godot documentation by term. Will only return a single documentation page for the first matching result.',
       {
         searchTerm: z.string(),
         version: z.enum(supportedVersions).optional().default('stable'),

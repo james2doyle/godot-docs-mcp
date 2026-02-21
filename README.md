@@ -7,15 +7,15 @@
 > [!WARNING]
 > Due to the popularity of this project, a rate limit of 30 requests per 60 second has been added. If you want to avoid that, [create a free Cloudflare account yourself and deploy this project](#deploy-to-cloudflare).
 
-Look up documentation in Godot using fuzz search. Supports `stable`, `latest`, `4.5`, `4.4`, and `4.3` versions. The default version is "stable".
+Look up documentation in Godot using fuzz search. Supports `stable`, `latest`, `4.6`, `4.5`, `4.4`, and `4.3` versions. The default version is "stable".
 
 ## Tools
 
-**search_docs** `(searchTerm: string, version: "stable" | "latest" | "4.5" | "4.4" | "4.3" = "stable")`
+**search_docs** `(searchTerm: string, version: "stable" | "latest" | "4.6" | "4.5" | "4.4" | "4.3" = "stable")`
 
 > Search the Godot docs by term. Will return URLs to the documentation for each matching term. The resulting URLs will need to have their page content fetched to see the documentation.
 
-**get_docs_page_for_term** `(searchTerm: string, version: "stable" | "latest" | "4.5" | "4.4" | "4.3" = "stable")`
+**get_docs_page_for_term** `(searchTerm: string, version: "stable" | "latest" | "4.6" | "4.5" | "4.4" | "4.3" = "stable")`
 
 > Get the Godot docs content by term. Will return the full documentation page for the first matching result.
 
@@ -101,9 +101,9 @@ You can also use https://www.mcpplayground.io/ to look at the tools in the live 
 
 ```sh
 # create the folders
-echo "stable,latest,4.5,4.4,4.3" | string split "," | xargs -I {} mkdir -p "src/indexes/{}"
+echo "stable,latest,4.6,4.5,4.4,4.3" | string split "," | xargs -I {} mkdir -p "src/indexes/{}"
 # download the files
-echo "stable,latest,4.5,4.4,4.3" | string split "," | xargs -I {} curl -o "src/indexes/{}/searchindex.js" "https://docs.godotengine.org/en/{}/searchindex.js"
+echo "stable,latest,4.6,4.5,4.4,4.3" | string split "," | xargs -I {} curl -o "src/indexes/{}/searchindex.js" "https://docs.godotengine.org/en/{}/searchindex.js"
 # convert the .js to a .json
 lsd src/indexes/*/searchindex.js | xargs -n1 fish -c 'cat "$argv" | sd "Search.setIndex\(" "" | sed \'$ s/.$//\' | jq \'.docnames | to_entries | map({id: .key, name: .value, category: .value | split("/") | first, url: "/\\(.value).html"})\' > "$argv.json"'
 ```
