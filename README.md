@@ -113,14 +113,15 @@ lsd src/indexes/*/searchindex.js | xargs -n1 fish -c 'cat "$argv" | sd "Search.s
 To deploy your own instance (recommended to avoid rate limits):
 
 1. Create a free [Cloudflare account](https://dash.cloudflare.com/sign-up)
-1. Install and authenticate Wrangler:
+2. Install and authenticate Wrangler:
 
 ```sh
 npm install -g wrangler
 wrangler login
 ```
 
-1. Clone and deploy:
+3. Change the `ratelimits` settings in the `wrangler.jsonc`.
+4. Clone and deploy:
 
 ```sh
 git clone https://github.com/your-repo/godot-docs-mcp.git
@@ -128,6 +129,8 @@ cd godot-docs-mcp
 npm install
 npm run deploy
 ```
+
+5. Update your server URL:
 
 After deployment, update your MCP config with your worker URL:
 
