@@ -4,10 +4,6 @@ import { z } from 'zod';
 import packageJson from '../package.json';
 import { getDocsPageForTerm, searchDocs } from './utils';
 
-export interface Env {
-  MCP_RATE_LIMITER: any;
-}
-
 const supportedVersions = ['stable', 'latest', '4.5', '4.4', '4.3'] as const;
 
 // Define our MCP agent with tools
@@ -40,7 +36,7 @@ export class MyMCP extends McpAgent {
 }
 
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext) {
+  async fetch(request: Request, env: Cloudflare.Env, ctx: ExecutionContext) {
     const url = new URL(request.url);
 
     if (url.pathname === '/mcp') {
@@ -54,6 +50,9 @@ export default {
       return MyMCP.serve('/mcp').fetch(request, env, ctx);
     }
 
-    return new Response('Not found', { status: 404 });
+    return Response.redirect(
+      'https://github.com/james2doyle/godot-docs-mcp',
+      302,
+    );
   },
 };
