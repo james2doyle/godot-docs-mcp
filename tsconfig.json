@@ -14,6 +14,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
+    "baseUrl": ".",
     "types": ["./worker-configuration.d.ts", "node"]
   },
   "include": ["worker-configuration.d.ts", "src/**/*.ts", "shims.d.ts"]

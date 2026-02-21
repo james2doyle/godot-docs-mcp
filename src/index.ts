@@ -4,6 +4,10 @@ import { z } from 'zod';
 import packageJson from '../package.json';
 import { getDocsPageForTerm, searchDocs } from './utils';
 
+export interface Env {
+  MCP_RATE_LIMITER: any;
+}
+
 const supportedVersions = ['stable', 'latest', '4.5', '4.4', '4.3'] as const;
 
 // Define our MCP agent with tools
@@ -36,10 +40,17 @@ export class MyMCP extends McpAgent {
 }
 
 export default {
-  fetch(request: Request, env: Env, ctx: ExecutionContext) {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext) {
     const url = new URL(request.url);
 
     if (url.pathname === '/mcp') {
+      const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+      const { success } = await env.MCP_RATE_LIMITER.limit({ key: ip });
+
+      if (!success) {
+        return new Response('Rate limited', { status: 429 });
+      }
+
       return MyMCP.serve('/mcp').fetch(request, env, ctx);
     }
 
