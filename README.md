@@ -5,7 +5,7 @@
 *This project is [hosted on Cloudflare using their Agents framework](https://developers.cloudflare.com/agents/)*
 
 > [!WARNING]
-> Due to the popularity of this project, a rate limit of 30 requests per 60 second has been added. If you want to avoid that, create a free Cloudflare account yourself and deploy this project.
+> Due to the popularity of this project, a rate limit of 30 requests per 60 second has been added. If you want to avoid that, [create a free Cloudflare account yourself and deploy this project](#deploy-to-cloudflare).
 
 Look up documentation in Godot using fuzz search. Supports `stable`, `latest`, `4.5`, `4.4`, and `4.3` versions. The default version is "stable".
 
@@ -107,3 +107,56 @@ echo "stable,latest,4.5,4.4,4.3" | string split "," | xargs -I {} curl -o "src/i
 # convert the .js to a .json
 lsd src/indexes/*/searchindex.js | xargs -n1 fish -c 'cat "$argv" | sd "Search.setIndex\(" "" | sed \'$ s/.$//\' | jq \'.docnames | to_entries | map({id: .key, name: .value, category: .value | split("/") | first, url: "/\\(.value).html"})\' > "$argv.json"'
 ```
+
+## Deploy to Cloudflare
+
+To deploy your own instance (recommended to avoid rate limits):
+
+1. Create a free [Cloudflare account](https://dash.cloudflare.com/sign-up)
+1. Install and authenticate Wrangler:
+   ```sh
+   npm install -g wrangler
+   wrangler login
+   ```
+1. Clone and deploy:
+   ```sh
+   git clone https://github.com/your-repo/godot-docs-mcp.git
+   cd godot-docs-mcp
+   npm install
+   npm run deploy
+   ```
+
+After deployment, update your MCP config with your worker URL:
+
+```json
+{
+  "mcpServers": {
+    "godot": {
+      "type": "http",
+      "url": "https://godot-docs-mcp.YOUR-SUBDOMAIN.workers.dev/mcp"
+    }
+  }
+}
+```
+
+### Adjusting the Rate Limit
+
+The default rate limit is **30 requests per 60 seconds**. To increase or disable it, edit `wrangler.jsonc`:
+
+**Increase the limit:**
+
+```jsonc
+"ratelimits": [
+  {
+    "name": "MCP_RATE_LIMITER",
+    "namespace_id": "1001",
+    "simple": {
+      "limit": 1000,
+      "period": 60
+    }
+  }
+]
+```
+
+**Disable rate limiting entirely:**
+Remove the entire `ratelimits` array from `wrangler.jsonc`.
