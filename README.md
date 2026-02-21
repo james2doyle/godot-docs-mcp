@@ -4,6 +4,9 @@
 
 *This project is [hosted on Cloudflare using their Agents framework](https://developers.cloudflare.com/agents/)*
 
+> [!WARNING]
+> Due to the popularity of this project, a rate limit of 30 requests per 60 second has been added. If you want to avoid that, create a free Cloudflare account yourself and deploy this project.
+
 Look up documentation in Godot using fuzz search. Supports `stable`, `latest`, `4.5`, `4.4`, and `4.3` versions. The default version is "stable".
 
 ## Tools
