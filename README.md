@@ -5,7 +5,7 @@
 *This project is [hosted on Cloudflare using their Agents framework](https://developers.cloudflare.com/agents/)*
 
 > [!WARNING]
-> Due to the popularity of this project, a rate limit of 30 requests per 60 second has been added. If you want to avoid that, [create a free Cloudflare account yourself and deploy this project](#deploy-to-cloudflare).
+> Due to the popularity of this project, a rate limit of 15 requests per 60 second has been added. If you want to avoid that, [create a free Cloudflare account yourself and deploy this project](#deploy-to-cloudflare).
 
 Look up documentation in Godot using fuzz search. Supports `stable`, `latest`, `4.6`, `4.5`, `4.4`, and `4.3` versions. The default version is "stable".
 
@@ -147,7 +147,7 @@ After deployment, update your MCP config with your worker URL:
 
 ### Adjusting the Rate Limit
 
-The default rate limit is **30 requests per 60 seconds**. To increase or disable it, edit `wrangler.jsonc`:
+The default rate limit is **15 requests per 60 seconds**. To increase or disable it, edit `wrangler.jsonc`:
 
 **Increase the limit:**
 
