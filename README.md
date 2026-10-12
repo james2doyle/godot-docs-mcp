@@ -2,10 +2,10 @@
 
 ![demo.png](demo.png)
 
-*This project is [hosted on Cloudflare using their Agents framework](https://developers.cloudflare.com/agents/)*
-
-> [!WARNING]
-> Due to the popularity of this project, a rate limit of 15 requests per 60 second has been added. If you want to avoid that, [create a free Cloudflare account yourself and deploy this project](#deploy-to-cloudflare).
+> [!IMPORTANT]
+> The public hosted server (`godot-docs-mcp.j2d.workers.dev`) has been retired and this project is no longer maintained — the hosting costs became too much to keep covering. It now returns a friendly shutdown notice with alternatives.
+>
+> You can keep using this project by [deploying your own instance](#deploy-to-cloudflare) (built on Cloudflare's [Agents framework](https://developers.cloudflare.com/agents/)) or [running it locally](#local-development). Looking for something else? Browse [other Godot MCP servers](https://github.com/search?q=godot+mcp&type=repositories).
 
 Look up documentation in Godot using fuzz search. Supports `stable`, `latest`, `4.6`, `4.5`, `4.4`, and `4.3` versions. The default version is "stable".
 
@@ -21,14 +21,14 @@ Look up documentation in Godot using fuzz search. Supports `stable`, `latest`, `
 
 ## Configure the MCP server
 
-To use the hosted HTTP server:
+Once you have an instance running (see [Deploy to Cloudflare](#deploy-to-cloudflare) or [Local development](#local-development)), point your client at it:
 
 ```json
 {
   "mcpServers": {
     "godot": {
       "type": "http",
-      "url": "https://godot-docs-mcp.j2d.workers.dev/mcp"
+      "url": "https://godot-docs-mcp.YOUR-SUBDOMAIN.workers.dev/mcp"
     }
   }
 }
@@ -43,7 +43,7 @@ Or, to connect to the MCP server using a `stdio` server:
       "command": "npx",
       "args": [
         "mcp-remote",
-        "https://godot-docs-mcp.j2d.workers.dev/mcp"
+        "https://godot-docs-mcp.YOUR-SUBDOMAIN.workers.dev/mcp"
       ]
     }
   }
@@ -95,7 +95,7 @@ npx @modelcontextprotocol/inspector
 
 Then open http://localhost:6274/#tools.
 
-You can also use https://www.mcpplayground.io/ to look at the tools in the live HTTP server.
+You can also use https://www.mcpplayground.io/ to look at the tools in your deployed HTTP server.
 
 ### Generating the docs
 
@@ -110,7 +110,7 @@ lsd src/indexes/*/searchindex.js | xargs -n1 fish -c 'cat "$argv" | sd "Search.s
 
 ## Deploy to Cloudflare
 
-To deploy your own instance (recommended to avoid rate limits):
+To deploy your own instance:
 
 1. Create a free [Cloudflare account](https://dash.cloudflare.com/sign-up)
 2. Install and authenticate Wrangler:
